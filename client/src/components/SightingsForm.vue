@@ -19,6 +19,9 @@
 </template>
 
 <script>
+import {eventBus} from '../main.js'
+import SightingService from '../services/SightingService.js'
+
 export default {
 	name: "sightings-form",
 	data(){
@@ -29,6 +32,16 @@ export default {
 		}
 	},
 	methods: {
+		addSighting(e) {
+			e.preventDefault();
+			const sighting = {
+				species: this.species,
+				location: this.location,
+				date: this.date
+			}
+			SightingService.postSighting(sighting)
+			.then(res => eventBus.$emit('sighting-added', res))
+		}
 
 	}
 }
